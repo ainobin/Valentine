@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Website</title>
+    
+    <style>
+    body {
+        margin: 10px;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        text-align: center;
+        margin-top: 30px;
+        
+    }
+
+    .buttons {
+        margin-top: 50px;
+    }
+
+    .button {
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 10px;
+        transition: transform 0.3s;
+        font-size: 20px;
+    }
+
+    .button:hover {
+        transform: scale(1.1);
+    }
+
+    .button_Yes_div {
+        margin: 25px;
+    }
+
+    .button_No_div {
+        margin: 25px;
+    }
+    #yes {
+        background-color: #007bff;
+    }
+
+    #no {
+        background-color: red;
+    }
+
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 1); /* Fully white background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0; /* Start with zero opacity */
+        animation: fadeIn 0.75s forwards; /* Fade-in animation */
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .loading-text {
+        color: black; 
+        font-size: 24px;
+        margin: 25px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .column {
+            width: 100%;
+        }
+    }
+    
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="animation">
+            <img src="E:\Fun_Project\Hi Girls.gif" alt="Hi_Girls" style="max-width: 100%;">
+        </div>
+
+        <div class="buttons">
+            
+            <div class="button_Yes_div">
+                <a href="E:\Fun_Project\page2.html">
+                    <button class="button" id="yes">Yes</button>
+                </a>
+            </div>
+            <div class="button_No_div">
+                <button class="button" id="no">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-text">I think you can't find the button. Let me help you</div>
+    </div>
+
+    <script>
+        const yesButton = document.getElementById("yes");
+        const noButton = document.getElementById("no");
+        let scale = 1;
+        let clickCount = 0;
+
+        const noButtonText = ["Are you sure?", "Are you really sure?", "Think again", "Again, it could be last chance", "You make me upset", "Please press Yes", "what's wrong with you?", "I request you", "Why so rude?", "Ok Ok, I understand. Click again"];
+        let currentIndex = 0;
+
+        const loadingOverlay = document.getElementById("loadingOverlay");
+
+        noButton.addEventListener('click', function() {
+            clickCount++;
+            scale += 0.1;
+            yesButton.style.transform = `scale(${scale})`;
+            document.getElementById("no").textContent = noButtonText[currentIndex];
+            currentIndex = (currentIndex + 1) % noButtonText.length;
+
+            if (clickCount > 10) {
+                showLoadingOverlay();
+                scale += 1;
+                yesButton.style.transform = `scale(${scale})`;
+                noButton.parentNode.removeChild(noButton);
+            }
+        });
+
+        function showLoadingOverlay() {
+            loadingOverlay.style.display = "flex";
+            setTimeout(hideLoadingOverlay, 3000); // Change 3000 to the desired time for the loading animation
+        }
+
+        function hideLoadingOverlay() {
+            loadingOverlay.style.animation = "fadeOut 0.5s forwards"; // Apply fade-out animation
+            setTimeout(() => {
+                loadingOverlay.style.display = "none";
+                loadingOverlay.style.animation = ""; // Reset animation
+            }, 500); // Wait for fade-out animation to complete
+            clickCount = 0; // Reset click count
+        }
+    </script>
+</body>
+</html>
